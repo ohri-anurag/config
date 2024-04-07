@@ -1,0 +1,1 @@
+bash setup will also require you to install [starship](https://starship.rs/)
