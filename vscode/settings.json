@@ -1,0 +1,59 @@
+{
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.editor.enablePreview": false,
+  "editor.fontFamily": "hasklig",
+  "editor.fontSize": 16,
+  "git.confirmSync": false,
+  "editor.renderWhitespace": "all",
+  "editor.fontLigatures": "'ccmp' off",
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.tabSize": 4
+  },
+  "workbench.colorTheme": "Lambda Black",
+  "diffEditor.ignoreTrimWhitespace": false,
+  "todohighlight.keywords": [
+    {
+      "text": "TODO:",
+      "color": "#d35757",
+      "border": "1px solid #d35757",
+      "borderRadius": "4px",
+      "backgroundColor": "transparent"
+      //other styling properties goes here ... 
+    },
+    {
+      "text": "NOTE:",
+      "color": "#00bbbb",
+      "border": "1px solid #00bbbb",
+      "borderRadius": "4px",
+      "backgroundColor": "transparent"
+      //other styling properties goes here ... 
+    }
+  ],
+  "window.titleBarStyle": "custom",
+  "haskell.manageHLS": "PATH",
+  "editor.minimap.showSlider": "always",
+  "editor.guides.bracketPairs": true,
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.shellIntegration.enabled": false,
+  "git.openRepositoryInParentFolders": "never",
+  "editor.codeLens": false,
+  "editor.detectIndentation": false,
+  "editor.tabSize": 2,
+  "[elm]": {
+    "editor.tabSize": 4
+  },
+  "redhat.telemetry.enabled": false,
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false
+  },
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
+  },
+  "window.zoomLevel": 1,
+  "git.suggestSmartCommit": false,
+  "editor.stickyScroll.enabled": false
+}
