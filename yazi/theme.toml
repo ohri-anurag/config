@@ -1,0 +1,16 @@
+[icon]
+prepend_rules = [
+  # Icon with a color
+  { name = "*.hs", text = "", fg = "#5e5086" },
+  { name = "*.lhs", text = "", fg = "#5e5086" },
+  { name = "*.ghci", text = "", fg = "darkgray" },
+  { name = "*.gitignore", text = "", fg = "red" },
+  { name = "*.gitattributes", text = "", fg = "red" },
+  { name = "*.gitmodules", text = "", fg = "red" },
+  { name = "*.sh", text = "", fg = "blue" },
+  { name = "*.envrc", text = "", fg = "yellow" },
+  { name = "*tags", text = "󱤇", fg = "yellow" },
+  { name = "*.cabal", text = "", fg = "yellow" },
+  { name = "*cabal.project*", text = "", fg = "yellow" },
+  { name = "*.dhall", text = "", fg = "darkgray" }
+]

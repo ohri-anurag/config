@@ -169,3 +169,8 @@ complete -F buildToolsComplete build debug
 source ~/.config/bash/fzf-haskell.sh
 
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
+
+alias cat=bat
+alias grep=rg
+alias find=fd
+alias spot=spotify

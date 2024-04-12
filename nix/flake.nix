@@ -18,6 +18,14 @@ in
       pkgs.buildEnv {
         name = "My Packages";
         paths = with pkgs; [
+          lf
+          yazi
+          httpie
+          gh
+          difftastic
+          haskellPackages.hasktags
+          ouch
+          pistol
           fzf
           fd
           bat
@@ -26,7 +34,6 @@ in
           jq
           vim
           neovim
-          ranger
           micro
           vscode
           joplin-desktop
