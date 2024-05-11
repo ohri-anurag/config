@@ -1,0 +1,6 @@
+theme = "noctis"
+[keys.normal]
+C-y = "yank_main_selection_to_clipboard"
+C-p = "paste_clipboard_before"
+[editor]
+true-color = true
