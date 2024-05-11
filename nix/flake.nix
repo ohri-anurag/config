@@ -3,14 +3,12 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    nixgl.url = "github:guibou/nixgl";
   };
 
-  outputs = { self, nixpkgs, nixgl }:
+  outputs = { self, nixpkgs }:
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
-    nixglPackages = nixgl.packages.${system};
 in
   {
     packages.${system}.default =
@@ -18,11 +16,16 @@ in
         name = "My Packages";
         paths = with pkgs; [
           lf
+          expect
+          meld
+          xclip
+          zellij
           yazi
+          elmPackages.elm
           httpie
           gh
           difftastic
-          alacritty
+          zoxide
           haskellPackages.hasktags
           ouch
           pistol
@@ -35,12 +38,13 @@ in
           vim
           neovim
           micro
+          helix
+          shellcheck
           vscode
-          joplin-desktop
-          postman
           spotify
           emacs
-          nixglPackages.nixGLDefault
+          cmake
+          libtool
         ];
       };
   };

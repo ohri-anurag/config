@@ -4,7 +4,7 @@
   "editor.fontFamily": "Hasklug Nerd Font",
   "terminal.integrated.fontFamily": "Hasklug Nerd Font",
   "editor.fontSize": 16,
-  "terminal.integrated.fontSize": 15,
+  "terminal.integrated.fontSize": 14,
   "git.confirmSync": false,
   "editor.renderWhitespace": "all",
   "editor.fontLigatures": "'ccmp' off",
@@ -12,7 +12,6 @@
     "editor.defaultFormatter": "vscode.json-language-features",
     "editor.tabSize": 4
   },
-  "workbench.colorTheme": "Lambda Black",
   "diffEditor.ignoreTrimWhitespace": false,
   "todohighlight.keywords": [
     {
@@ -43,7 +42,7 @@
   "editor.detectIndentation": false,
   "editor.tabSize": 2,
   "[elm]": {
-    "editor.tabSize": 4
+    "editor.tabSize": 2
   },
   "redhat.telemetry.enabled": false,
   "github.copilot.enable": {
@@ -52,6 +51,7 @@
     "markdown": true,
     "scminput": false
   },
+  "git.enableCommitSigning": true,
   "[xml]": {
     "editor.defaultFormatter": "redhat.vscode-xml"
   },
@@ -101,5 +101,10 @@
         "--enable-all-experimental-lsp-features"
       ]
     }
-  ]
+  ],
+  "terminal.integrated.enableMultiLinePasteWarning": "never",
+  "terminal.integrated.tabs.enabled": false,
+  "workbench.colorTheme": "Noctis",
+  "merge-conflict.autoNavigateNextConflict.enabled": true,
+  "git.mergeEditor": true
 }

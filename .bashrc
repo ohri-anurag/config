@@ -169,9 +169,19 @@ complete -F buildToolsComplete build debug
 source ~/.config/bash/fzf-haskell.sh
 
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
-
-alias cat=bat
+export VISUAL="code --wait"
+alias cat='bat --paging=never'
 alias grep=rg
 alias find=fd
 alias spot=spotify
-alias alacritty='nixGL alacritty'
+alias cd=z
+eval "$(zoxide init bash)"
+alias gp='git push'
+alias gpf='git push --force-with-lease'
+alias gpu='git push --set-upstream origin "$(git symbolic-ref --short HEAD)"'
+alias gpl='git pull'
+alias gc='git commit -S -m'
+alias gcb='git checkout -b'
+alias gb='git branch'
+alias gd='GIT_EXTERNAL_DIFF=difft git diff'
+. "$HOME/.cargo/env"

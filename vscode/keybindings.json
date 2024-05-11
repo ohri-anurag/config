@@ -38,6 +38,10 @@
     "command": "fzf-haskell.findTag"
   },
   {
+    "key": "ctrl+p",
+    "command": "fzf-haskell.findFile"
+  },
+  {
     "key": "ctrl+shift+j",
     "command": "fzf-haskell.regenerateTags"
   },
