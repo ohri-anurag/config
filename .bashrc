@@ -131,6 +131,24 @@ program-options
   cabal --builddir=$rootDir/dist-newstyle build $1 && cabal --builddir=$rootDir/dist-newstyle test $1
 }
 
+cover() {
+  cd $rootDir
+  echo "optimization: False
+program-options
+  ghc-options: -Wall
+package *
+  coverage: True
+  library-coverage: True
+
+package order-processing
+  coverage: False
+  library-coverage: False
+
+" >cabal.project.local
+
+  cabal --builddir=$rootDir/dist-newstyle-cover build $1 && cabal --builddir=$rootDir/dist-newstyle-cover test $1
+}
+
 debug() {
   cd $rootDir
   echo "optimization: False
@@ -164,7 +182,7 @@ buildToolsComplete() {
 }
 
 # Register buildToolsComplete to provide completion for the following commands
-complete -F buildToolsComplete build debug
+complete -F buildToolsComplete build cover debug
 
 source ~/.config/bash/fzf-haskell.sh
 
