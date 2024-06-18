@@ -101,14 +101,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- TELESCOPE SETUP
 local builtin = require("telescope.builtin")
-vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
-vim.keymap.set("n", "<leader>fg", builtin.grep_string, {})
-vim.keymap.set("n", "<leader>lg", builtin.live_grep, {})
 vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
 
 -- FZF-LUA Setup
 local fzf = require("fzf-lua")
 fzf.setup({ "telescope" })
+vim.keymap.set("n", "<leader>ff", fzf.files, {})
+vim.keymap.set("n", "<leader>fg", fzf.grep_cword, {})
+vim.keymap.set("n", "<leader>lg", fzf.live_grep, {})
 vim.keymap.set("n", "<leader>ft", fzf.tags_grep_cword, {})
 vim.keymap.set("n", "<leader>lt", fzf.tags, {})
 
