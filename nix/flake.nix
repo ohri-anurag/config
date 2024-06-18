@@ -37,11 +37,11 @@ in
           jq
           vim
           neovim
+          stylua
           micro
           helix
           shellcheck
-          vscode
-          spotify
+          taskwarrior
           emacs
           cmake
           libtool

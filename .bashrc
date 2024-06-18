@@ -121,7 +121,8 @@ echo "Hi Anurag"
 PATH="$HOME/.local/bin:$HOME/.local/bin/haskell:$PATH"
 eval "$(starship init bash)"
 
-rootDir="/home/anuragohri92/bellroy/haskell/"
+rootDir="/home/anuragohri92/bellroy/haskell"
+
 build() {
   cd $rootDir
   echo "optimization: False
@@ -150,19 +151,32 @@ package order-processing
 }
 
 debug() {
-  cd $rootDir
+  cd "$rootDir" || exit
   echo "optimization: False
 program-options
   ghc-options: -Wwarn -Wunused-top-binds -Werror=unused-top-binds" >cabal.project.local
-  cabalFileName=$(ls $(awk '/^packages:$/,/^program-options$/ {print $1"/*.cabal"}' cabal.project | head -n -1 | tail -n +2 | xargs) | xargs grep "name:" | awk '{print $2"!"$1}' | grep "$1!" | awk -F"!" '{print $2}')
-  dir="${cabalFileName%/*}"
-  cd $dir
+  cd "$(awk '/^packages:$/,/^program-options$/ {print $1}' cabal.project | head -n -1 | tail -n +2 | grep "$1")" || exit
   if [[ $2 != "" ]]; then
     target="$1:$2"
   else
     target=$1
   fi
   ghcid -c "cabal --builddir=$rootDir/dist-newstyle-debug repl $target" -o ghcid.txt
+
+}
+
+repl() {
+  cd "$rootDir" || exit
+  echo "optimization: False
+program-options
+  ghc-options: -Wwarn -Wunused-top-binds -Werror=unused-top-binds" >cabal.project.local
+  cd "$(awk '/^packages:$/,/^program-options$/ {print $1}' cabal.project | head -n -1 | tail -n +2 | grep "$1")" || exit
+  if [[ $2 != "" ]]; then
+    target="$1:$2"
+  else
+    target=$1
+  fi
+  cabal --builddir=$rootDir/dist-newstyle-debug repl $target
 
 }
 
@@ -173,7 +187,7 @@ buildToolsComplete() {
   # COMP_CWORD is the index of the current word (the one the cursor is
   # in). So COMP_WORDS[COMP_CWORD] is the current word
   cur_word="${COMP_WORDS[COMP_CWORD]}"
-  type_list=$(ls $(awk -v rootDir="$rootDir" '/^packages:$/,/^program-options$/ {print rootDir"/"$1"/*.cabal"}' $rootDir/cabal.project | head -n -1 | tail -n +2 | xargs) | xargs grep -h "name:" | awk '{print $2}')
+  type_list=$(ls $(awk -v rootDir=$rootDir '/^packages:$/,/^program-options$/ {print rootDir"/"$1"/*.cabal"}' $rootDir/cabal.project | head -n -1 | tail -n +2) | awk -F"/" '{print $NF}' | awk -F"." '{print $1}')
 
   # COMPREPLY is the array of possible completions, generated with
   # the compgen builtin.
@@ -182,19 +196,21 @@ buildToolsComplete() {
 }
 
 # Register buildToolsComplete to provide completion for the following commands
-complete -F buildToolsComplete build cover debug
+complete -F buildToolsComplete build cover debug repl
 
 source ~/.config/bash/fzf-haskell.sh
 
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
-export VISUAL="code --wait"
+export VISUAL="nvim"
 alias cat='bat --paging=never'
 alias grep=rg
 alias find=fd
 alias spot=spotify
 alias cd=z
 eval "$(zoxide init bash)"
+eval "$(fzf --bash)"
 alias gp='git push'
+alias gst='git status'
 alias gpf='git push --force-with-lease'
 alias gpu='git push --set-upstream origin "$(git symbolic-ref --short HEAD)"'
 alias gpl='git pull'
