@@ -122,6 +122,13 @@ local function reload_current_file()
   -- Reload the current file from disk
   vim.cmd("edit!")
 
+  -- Get the total number of lines
+  local num_lines = vim.fn.line("$")
+
+  if cursor_pos[1] > num_lines then
+    cursor_pos[1] = num_lines
+  end
+
   -- Restore the cursor position
   vim.api.nvim_win_set_cursor(0, cursor_pos)
 
@@ -129,7 +136,7 @@ local function reload_current_file()
   vim.fn.winrestview(view)
 end
 
-local function create_format_on_save(file_regex, gen_command)
+function create_format_on_save(file_regex, gen_command)
   vim.api.nvim_create_autocmd("BufWritePost", {
     pattern = file_regex,
     callback = function(args)
@@ -141,14 +148,6 @@ local function create_format_on_save(file_regex, gen_command)
     end,
   })
 end
-
-create_format_on_save("*.cabal", function(file)
-  return { "cabal-fmt", "--inplace", file }
-end)
-
-create_format_on_save("*.hs", function(file)
-  return { "ormolu", "-i", file }
-end)
 
 create_format_on_save("*.dhall", function(file)
   return { "dhall", "--unicode", "format", file }
@@ -165,3 +164,8 @@ vim.api.nvim_exec(
 ]],
   false
 )
+
+-- Source a local .nvimrc.lua file if it is present
+if vim.env.NVIM_CONFIG_PATH ~= nil and vim.fn.filereadable(vim.env.NVIM_CONFIG_PATH) == 1 then
+  vim.cmd("source " .. vim.env.NVIM_CONFIG_PATH)
+end

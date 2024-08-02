@@ -121,6 +121,32 @@ echo "Hi Anurag"
 PATH="$HOME/.local/bin:$HOME/.local/bin/haskell:$PATH"
 eval "$(starship init bash)"
 
+export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
+export VISUAL="nvim"
+
+alias cat='bat --paging=never'
+alias grep=rg
+alias find=fd
+alias spot=spotify
+alias cd=z
+alias v=nvim
+eval "$(zoxide init bash)"
+eval "$(fzf --bash)"
+alias gp='git push'
+alias ga='git add'
+alias gap='git add --patch'
+alias gst='git status'
+alias gpf='git push --force-with-lease'
+alias gpu='git push --set-upstream origin "$(git symbolic-ref --short HEAD)"'
+alias gpl='git pull'
+alias gplr='git pull --recurse-submodules'
+alias gc='git commit -S -m'
+alias gcb='git checkout -b'
+alias gb='git branch'
+alias gd='GIT_EXTERNAL_DIFF=difft git diff'
+alias gds='GIT_EXTERNAL_DIFF=difft git diff --staged'
+. "$HOME/.cargo/env"
+
 rootDir="/home/anuragohri92/bellroy/haskell"
 
 build() {
@@ -155,7 +181,7 @@ debug() {
   echo "optimization: False
 program-options
   ghc-options: -Wwarn -Wunused-top-binds -Werror=unused-top-binds" >cabal.project.local
-  cd "$(awk '/^packages:$/,/^program-options$/ {print $1}' cabal.project | head -n -1 | tail -n +2 | grep "$1")" || exit
+  cd "$(awk '/^packages:$/,/^program-options$/ {print $1}' cabal.project | head -n -1 | tail -n +2 | grep "$1"| head -n -1)" || exit
   if [[ $2 != "" ]]; then
     target="$1:$2"
   else
@@ -197,25 +223,3 @@ buildToolsComplete() {
 
 # Register buildToolsComplete to provide completion for the following commands
 complete -F buildToolsComplete build cover debug repl
-
-source ~/.config/bash/fzf-haskell.sh
-
-export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
-export VISUAL="nvim"
-alias cat='bat --paging=never'
-alias grep=rg
-alias find=fd
-alias spot=spotify
-alias cd=z
-eval "$(zoxide init bash)"
-eval "$(fzf --bash)"
-alias gp='git push'
-alias gst='git status'
-alias gpf='git push --force-with-lease'
-alias gpu='git push --set-upstream origin "$(git symbolic-ref --short HEAD)"'
-alias gpl='git pull'
-alias gc='git commit -S -m'
-alias gcb='git checkout -b'
-alias gb='git branch'
-alias gd='GIT_EXTERNAL_DIFF=difft git diff'
-. "$HOME/.cargo/env"
