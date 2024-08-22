@@ -181,7 +181,7 @@ debug() {
   echo "optimization: False
 program-options
   ghc-options: -Wwarn -Wunused-top-binds -Werror=unused-top-binds" >cabal.project.local
-  cd "$(awk '/^packages:$/,/^program-options$/ {print $1}' cabal.project | head -n -1 | tail -n +2 | grep "$1"| head -n -1)" || exit
+  cd "$(awk '/^packages:$/,/^program-options$/ {print $1}' cabal.project | head -n -1 | tail -n +2 | fzf -f "$1"| head -n 1)" || exit
   if [[ $2 != "" ]]; then
     target="$1:$2"
   else

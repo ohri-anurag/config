@@ -105,12 +105,18 @@ vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
 
 -- FZF-LUA Setup
 local fzf = require("fzf-lua")
-fzf.setup({ "telescope" })
+fzf.setup({ "telescope", grep = {
+  rg_glob = true,
+} })
 vim.keymap.set("n", "<leader>ff", fzf.files, {})
 vim.keymap.set("n", "<leader>fg", fzf.grep_cword, {})
 vim.keymap.set("n", "<leader>lg", fzf.live_grep, {})
 vim.keymap.set("n", "<leader>ft", fzf.tags_grep_cword, {})
 vim.keymap.set("n", "<leader>lt", fzf.tags, {})
+
+-- Setup keybindings for copying current filepath relative to VIM's cwd
+vim.api.nvim_set_keymap("n", "<F2>", ':let @" = expand("%")<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<F3>", ':let @+ = expand("%")<CR>', { noremap = true, silent = true })
 
 local function reload_current_file()
   -- Save the current cursor position
