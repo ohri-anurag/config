@@ -28,6 +28,9 @@ Plug("jiangmiao/auto-pairs")
 -- Indent Guides
 Plug("lukas-reineke/indent-blankline.nvim")
 
+-- Yanky
+Plug("gbprod/yanky.nvim")
+
 vim.call("plug#end")
 
 -- TREE SITTER SETUP
@@ -93,15 +96,23 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Highlight text when yanked.
-vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-})
+-- vim.api.nvim_create_autocmd("TextYankPost", {
+--   callback = function()
+--     vim.highlight.on_yank()
+--   end,
+-- })
+-- Yanky keybindings
+require("yanky").setup({ highlight = { timer = 200 } })
+vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
+vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
+vim.keymap.set("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
+vim.keymap.set("n", "<c-n>", "<Plug>(YankyNextEntry)")
 
 -- TELESCOPE SETUP
 local builtin = require("telescope.builtin")
+require("telescope").load_extension("yank_history")
 vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
+vim.keymap.set("n", "<leader>fp", require("telescope").extensions.yank_history.yank_history, {})
 
 -- FZF-LUA Setup
 local fzf = require("fzf-lua")
