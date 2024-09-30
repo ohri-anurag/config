@@ -111,6 +111,15 @@ vim.keymap.set("n", "<c-n>", "<Plug>(YankyNextEntry)")
 -- TELESCOPE SETUP
 local builtin = require("telescope.builtin")
 require("telescope").load_extension("yank_history")
+require("telescope").setup({
+  defaults = {
+    mappings = {
+      i = {
+        ["<Esc>"] = require("telescope.actions").close,
+      },
+    },
+  },
+})
 vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
 vim.keymap.set("n", "<leader>fp", require("telescope").extensions.yank_history.yank_history, {})
 

@@ -224,3 +224,6 @@ buildToolsComplete() {
 
 # Register buildToolsComplete to provide completion for the following commands
 complete -F buildToolsComplete build cover debug repl
+
+# Use readline in VI mode, so that Vim's keybindings also work on the terminal
+set -o vi

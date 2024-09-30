@@ -41,7 +41,7 @@ in
           micro
           helix
           shellcheck
-          taskwarrior
+          taskwarrior3
           emacs
           cmake
           libtool
