@@ -95,12 +95,9 @@ vim.o.ignorecase = true
 -- ...unless the search phrase contains a capital.
 vim.o.smartcase = true
 
--- Highlight text when yanked.
--- vim.api.nvim_create_autocmd("TextYankPost", {
---   callback = function()
---     vim.highlight.on_yank()
---   end,
--- })
+-- To enable syntax based closing/folding of code
+vim.o.foldmethod = "syntax"
+
 -- Yanky keybindings
 require("yanky").setup({ highlight = { timer = 200 } })
 vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")

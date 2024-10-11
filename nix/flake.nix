@@ -25,7 +25,6 @@ in
           httpie
           gh
           difftastic
-          zoxide
           haskellPackages.hasktags
           ouch
           pistol

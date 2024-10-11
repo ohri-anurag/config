@@ -128,9 +128,7 @@ alias cat='bat --paging=never'
 alias grep=rg
 alias find=fd
 alias spot=spotify
-alias cd=z
 alias v=nvim
-eval "$(zoxide init bash)"
 eval "$(fzf --bash)"
 alias gp='git push'
 alias ga='git add'
@@ -146,7 +144,17 @@ alias gcb='git checkout -b'
 alias gb='git branch'
 alias gd='GIT_EXTERNAL_DIFF=difft git diff'
 alias gds='GIT_EXTERNAL_DIFF=difft git diff --staged'
-. "$HOME/.cargo/env"
+
+
+# Use readline in VI mode, so that Vim's keybindings also work on the terminal
+set -o vi
+
+function cd() {
+  builtin cd "$@" || return
+  if [ -f .bashenv ]; then
+    source .bashenv
+  fi
+}
 
 rootDir="/home/anuragohri92/bellroy/haskell"
 
@@ -182,7 +190,7 @@ debug() {
   echo "optimization: False
 program-options
   ghc-options: -Wwarn -Wunused-top-binds -Werror=unused-top-binds" >cabal.project.local
-  cd "$(awk '/^packages:$/,/^program-options$/ {print $1}' cabal.project | head -n -1 | tail -n +2 | fzf -f "$1"| head -n 1)" || exit
+  cd $(dirname $(ls $(awk '/^packages:$/,/^program-options$/ {print $1}' cabal.project | head -n -1 | tail -n +2 | awk '{print $1"/*.cabal"}') | fzf -f "$1" | head -n 1)) || exit
   if [[ $2 != "" ]]; then
     target="$1:$2"
   else
@@ -197,7 +205,7 @@ repl() {
   echo "optimization: False
 program-options
   ghc-options: -Wwarn -Wunused-top-binds -Werror=unused-top-binds" >cabal.project.local
-  cd "$(awk '/^packages:$/,/^program-options$/ {print $1}' cabal.project | head -n -1 | tail -n +2 | grep "$1")" || exit
+  cd $(dirname $(ls $(awk '/^packages:$/,/^program-options$/ {print $1}' cabal.project | head -n -1 | tail -n +2 | awk '{print $1"/*.cabal"}') | fzf -f "$1" | head -n 1)) || exit
   if [[ $2 != "" ]]; then
     target="$1:$2"
   else
@@ -224,6 +232,3 @@ buildToolsComplete() {
 
 # Register buildToolsComplete to provide completion for the following commands
 complete -F buildToolsComplete build cover debug repl
-
-# Use readline in VI mode, so that Vim's keybindings also work on the terminal
-set -o vi
