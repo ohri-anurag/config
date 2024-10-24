@@ -20,6 +20,7 @@ in
           meld
           xclip
           zellij
+          nodePackages.nodejs
           yazi
           elmPackages.elm
           httpie
