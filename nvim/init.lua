@@ -4,13 +4,14 @@ vim.call("plug#begin")
 
 -- Edge colorscheme plugin
 Plug("sainnhe/edge")
+Plug("bluz71/vim-moonfly-colors", { as = "moonfly" })
 
 -- ICONS for telescope
 Plug("nvim-tree/nvim-web-devicons")
 
 -- TELESCOPE SETUP
 Plug("nvim-lua/plenary.nvim")
-Plug("nvim-telescope/telescope.nvim", { tag = "0.1.6" })
+Plug("nvim-telescope/telescope.nvim", { tag = "0.1.8" })
 Plug("nvim-telescope/telescope-fzf-native.nvim", { ["do"] = "make" })
 
 -- FZF LUA SETUP
@@ -30,6 +31,18 @@ Plug("lukas-reineke/indent-blankline.nvim")
 
 -- Yanky
 Plug("gbprod/yanky.nvim")
+
+-- Co-pilot
+Plug("github/copilot.vim")
+
+-- Octo
+Plug("pwntester/octo.nvim")
+
+-- Avante
+Plug("stevearc/dressing.nvim")
+Plug("MunifTanjim/nui.nvim")
+Plug("HakonHarnes/img-clip.nvim")
+Plug("yetone/avante.nvim", { branch = "main", ["do"] = "make" })
 
 vim.call("plug#end")
 
@@ -53,7 +66,7 @@ require("nvim-web-devicons").setup({
 })
 
 -- Setup the colorscheme
-vim.cmd("colorscheme edge")
+vim.cmd("colorscheme moonfly")
 
 -- Setup indent guides
 require("ibl").setup()
@@ -131,9 +144,20 @@ vim.keymap.set("n", "<leader>lg", fzf.live_grep, {})
 vim.keymap.set("n", "<leader>ft", fzf.tags_grep_cword, {})
 vim.keymap.set("n", "<leader>lt", fzf.tags, {})
 
+-- Octo Setup
+require("octo").setup({
+  picker = "fzf-lua",
+})
+
 -- Setup keybindings for copying current filepath relative to VIM's cwd
 vim.api.nvim_set_keymap("n", "<F2>", ':let @" = expand("%")<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<F3>", ':let @+ = expand("%")<CR>', { noremap = true, silent = true })
+
+-- Enable avante
+require("avante_lib").load()
+require("avante").setup({
+  provider = "copilot",
+})
 
 local function reload_current_file()
   -- Save the current cursor position
@@ -189,6 +213,6 @@ vim.api.nvim_exec(
 )
 
 -- Source a local .nvimrc.lua file if it is present
-if vim.env.NVIM_CONFIG_PATH ~= nil and vim.fn.filereadable(vim.env.NVIM_CONFIG_PATH) == 1 then
-  vim.cmd("source " .. vim.env.NVIM_CONFIG_PATH)
+if vim.fn.filereadable(".nvimrc.lua") == 1 then
+  vim.cmd("source .nvimrc.lua")
 end

@@ -149,7 +149,12 @@ alias gds='GIT_EXTERNAL_DIFF=difft git diff --staged'
 # Use readline in VI mode, so that Vim's keybindings also work on the terminal
 set -o vi
 
+# If there is .bashenv.sh file in the directory where the terminal is started, this will load it.
+if [ -f .bashenv.sh ]; then
+  source .bashenv.sh
+fi
 function cd() {
+  # If there is .bashenv.sh file in the directory being `cd`ed, this will load it.
   builtin cd "$@" || return
   if [ -f .bashenv.sh ]; then
     source .bashenv.sh
