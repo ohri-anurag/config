@@ -124,27 +124,31 @@ eval "$(starship init bash)"
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 export VISUAL="nvim"
 
-alias cat='bat --paging=never'
-alias grep=rg
-alias find=fd
-alias spot=spotify
-alias v=nvim
 eval "$(fzf --bash)"
-alias gp='git push'
+
+alias cat='bat --paging=never'
+alias find=fd
 alias ga='git add'
 alias gap='git add --patch'
-alias gst='git status'
-alias gpf='git push --force-with-lease'
-alias gpu='git push --set-upstream origin "$(git symbolic-ref --short HEAD)"'
-alias gpl='git pull'
-alias gplr='git pull --recurse-submodules'
-alias gplm='git pull -S origin master'
-alias gc='git commit -S -m'
-alias gcb='git checkout -b'
 alias gb='git branch'
+alias gc='git commit -S -m'
+alias gca='git commit -S --amend'
+alias gcb='git checkout -b'
 alias gd='GIT_EXTERNAL_DIFF=difft git diff'
 alias gds='GIT_EXTERNAL_DIFF=difft git diff --staged'
-
+alias gmt='git mergetool'
+alias gp='git push'
+alias gpf='git push --force-with-lease'
+alias gpl='git pull'
+alias gplm='git pull -S origin master'
+alias gplr='git pull --recurse-submodules'
+alias gpu='git push --set-upstream origin "$(git symbolic-ref --short HEAD)"'
+alias grc='git rebase --continue'
+alias grep=rg
+alias gri='git rebase -i'
+alias grs='git rebase --skip'
+alias gst='git status'
+alias v=nvim
 
 # Use readline in VI mode, so that Vim's keybindings also work on the terminal
 set -o vi
@@ -160,3 +164,5 @@ function cd() {
     source .bashenv.sh
   fi
 }
+
+export OPENAI_API_KEY="$(cat ~/.openaikey)"

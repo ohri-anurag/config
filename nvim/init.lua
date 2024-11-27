@@ -2,8 +2,12 @@ local Plug = vim.fn["plug#"]
 
 vim.call("plug#begin")
 
+-- Vim Airline
+Plug("vim-airline/vim-airline")
+
 -- Edge colorscheme plugin
 Plug("sainnhe/edge")
+-- Moonfly colorscheme plugin
 Plug("bluz71/vim-moonfly-colors", { as = "moonfly" })
 
 -- ICONS for telescope
@@ -43,6 +47,9 @@ Plug("stevearc/dressing.nvim")
 Plug("MunifTanjim/nui.nvim")
 Plug("HakonHarnes/img-clip.nvim")
 Plug("yetone/avante.nvim", { branch = "main", ["do"] = "make" })
+
+-- Vim Yazi plugin
+Plug("mikavilpas/yazi.nvim")
 
 vim.call("plug#end")
 
@@ -130,19 +137,27 @@ require("telescope").setup({
     },
   },
 })
-vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
+
 vim.keymap.set("n", "<leader>fp", require("telescope").extensions.yank_history.yank_history, {})
+vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
 
 -- FZF-LUA Setup
 local fzf = require("fzf-lua")
-fzf.setup({ "telescope", grep = {
-  rg_glob = true,
-} })
-vim.keymap.set("n", "<leader>ff", fzf.files, {})
+fzf.setup({
+  "telescope",
+  grep = {
+    rg_glob = true,
+  },
+  fzf_opts = { ["--cycle"] = "" },
+})
 vim.keymap.set("n", "<leader>fg", fzf.grep_cword, {})
+vim.keymap.set("n", "<leader>ff", fzf.files, {})
 vim.keymap.set("n", "<leader>lg", fzf.live_grep, {})
 vim.keymap.set("n", "<leader>ft", fzf.tags_grep_cword, {})
 vim.keymap.set("n", "<leader>lt", fzf.tags, {})
+
+-- Yazi keybinging
+vim.keymap.set("n", "<leader>cw", "<cmd>Yazi cwd<cr>", {})
 
 -- Octo Setup
 require("octo").setup({
@@ -156,7 +171,7 @@ vim.api.nvim_set_keymap("n", "<F3>", ':let @+ = expand("%")<CR>', { noremap = tr
 -- Enable avante
 require("avante_lib").load()
 require("avante").setup({
-  provider = "copilot",
+  provider = "openai",
 })
 
 local function reload_current_file()
