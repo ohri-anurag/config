@@ -17,7 +17,7 @@
         npmDepsHash = "sha256-1eTO6LPIzmSAISRz27BlsnlJQsoyTiOKmyjq5YjqhYA=";
         dontNpmBuild = true;
         postInstall = ''
-	  mkdir -p "$out/bin"
+          mkdir -p "$out/bin"
           ln -s "$out/lib/node_modules/claude-code/node_modules/@anthropic-ai/claude-code/cli.js" "$out/bin/claude"
         '';
       };
@@ -26,43 +26,49 @@
       packages.${system}.default = pkgs.buildEnv {
         name = "My Packages";
         paths = with pkgs; [
-          # CLI Tool for rendering markdown
-          glow
-          # NodeJS
-          nodePackages.nodejs
-          # For generating flakes for node packages
-          node2nix
-          # Setup for claude code
-          claude-code
-          lf
-          expect
-          meld
-          xclip
-          zellij
-          yazi
+          glow # CLI Tool for rendering markdown
+
+          nodePackages.nodejs # NodeJS
+
+          node2nix # For generating flakes for node packages
+
+          claude-code # Setup for claude code
+
+          meld # Visual diff/merge tool
+
+          xclip # Clipboard manager
+
+          yazi # Terminal based file manager
+
           elmPackages.elm
-          httpie
-          gh
-          difftastic
-          haskellPackages.hasktags
-          ouch
-          pistol
-          fzf
-          fd
-          bat
-          ripgrep
-          direnv
-          jq
-          vim
-          neovim
-          stylua
-          micro
-          helix
-          shellcheck
-          taskwarrior3
-          emacs
-          cmake
-          libtool
+
+          httpie # CLI HTTP client
+
+          gh # GitHub CLI
+
+          difftastic # Syntactic CLI diff tool
+
+          haskellPackages.hasktags # Generate CTAGS for Haskell
+
+          ouch # Zipping/Unzipping CLI tool
+
+          fzf # Fuzzy finder
+
+          fd # Faster find
+
+          bat # Cat with wings
+
+          ripgrep # Faster grep
+
+          direnv # Environment switcher
+
+          jq # CLI JSON processor
+
+          neovim # Neovim
+
+          stylua # Lua formatter
+
+          taskwarrior3 # CLI based task manager
         ];
       };
     };

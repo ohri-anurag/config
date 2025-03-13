@@ -1,7 +1,0 @@
-[language-server.hls]
-command = "haskell-language-server" 
-args = []
-
-[[language]]
-name = "haskell"
-language-servers = [ "hls" ]
