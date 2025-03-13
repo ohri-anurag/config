@@ -3,6 +3,10 @@ create_format_on_save("*.ts", function(file)
   return { "prettier", "-w", file }
 end)
 
+create_format_on_save("*.json", function(file)
+  return { "prettier", "-w", file }
+end)
+
 create_format_on_save("*.mjs", function(file)
   return { "prettier", "-w", file }
 end)

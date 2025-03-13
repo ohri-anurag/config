@@ -135,6 +135,7 @@ alias gc='git commit -S -m'
 alias gca='git commit -S --amend'
 alias gcb='git checkout -b'
 alias gd='GIT_EXTERNAL_DIFF=difft git diff'
+alias gdt='git difftool -y'
 alias gds='GIT_EXTERNAL_DIFF=difft git diff --staged'
 alias gmt='git mergetool'
 alias gp='git push'
@@ -147,8 +148,16 @@ alias grc='git rebase --continue'
 alias grep=rg
 alias gri='git rebase -i'
 alias grs='git rebase --skip'
+alias gra='git rebase --abort'
 alias gst='git status'
 alias v=nvim
+
+replace() {
+  rg -l -F $1 . | xargs sed -i s/$1/$2/g
+}
+replaceRegex() {
+  rg -l $1 . | xargs sed -i s/$1/$2/g
+}
 
 # Use readline in VI mode, so that Vim's keybindings also work on the terminal
 set -o vi

@@ -2,11 +2,12 @@ local Plug = vim.fn["plug#"]
 
 vim.call("plug#begin")
 
--- Vim Airline
-Plug("vim-airline/vim-airline")
+-- Lualine
+Plug("nvim-lualine/lualine.nvim")
 
 -- Edge colorscheme plugin
 Plug("sainnhe/edge")
+
 -- Moonfly colorscheme plugin
 Plug("bluz71/vim-moonfly-colors", { as = "moonfly" })
 
@@ -19,13 +20,14 @@ Plug("nvim-telescope/telescope.nvim", { tag = "0.1.8" })
 Plug("nvim-telescope/telescope-fzf-native.nvim", { ["do"] = "make" })
 
 -- FZF LUA SETUP
-Plug("ibhagwan/fzf-lua", { branch = "main" })
+Plug("ibhagwan/fzf-lua")
 
 -- TREE SITTER SETUP
 Plug("nvim-treesitter/nvim-treesitter", { ["do"] = ":TSUpdate" })
 
 -- Autocomplete setup
-Plug("vim-scripts/AutoComplPop")
+Plug("vim-scripts/L9")
+Plug("othree/vim-autocomplpop")
 
 -- Bracket Pairs
 Plug("jiangmiao/auto-pairs")
@@ -42,14 +44,14 @@ Plug("github/copilot.vim")
 -- Octo
 Plug("pwntester/octo.nvim")
 
--- Avante
-Plug("stevearc/dressing.nvim")
-Plug("MunifTanjim/nui.nvim")
-Plug("HakonHarnes/img-clip.nvim")
-Plug("yetone/avante.nvim", { branch = "main", ["do"] = "make" })
+-- Code Companion
+Plug("olimorris/codecompanion.nvim")
 
 -- Vim Yazi plugin
 Plug("mikavilpas/yazi.nvim")
+
+-- TODO Comments
+Plug("folke/todo-comments.nvim")
 
 vim.call("plug#end")
 
@@ -65,6 +67,26 @@ require("nvim-treesitter.configs").setup({
   },
 })
 
+-- Lualine setup
+require("lualine").setup({
+  sections = {
+    lualine_a = { "mode" },
+    lualine_b = { "branch", "diff", "diagnostics" },
+    lualine_c = { { "filename", path = 1 } },
+    lualine_x = { { "searchcount", maxcount = 999999 }, "encoding", "fileformat", "filetype" },
+    lualine_y = { "progress" },
+    lualine_z = { "location" },
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = { { "filename", path = 1 } },
+    lualine_x = { "location" },
+    lualine_y = {},
+    lualine_z = {},
+  },
+})
+
 -- nvim-web-devicons
 require("nvim-web-devicons").setup({
   color_icons = true,
@@ -77,6 +99,9 @@ vim.cmd("colorscheme moonfly")
 
 -- Setup indent guides
 require("ibl").setup()
+
+-- TODO Comments setup
+require("todo-comments").setup()
 
 -- Enable line numbers
 vim.o.number = true
@@ -110,13 +135,17 @@ vim.o.smarttab = true
 vim.o.shiftround = true
 
 -- Case-insensitive search.
-vim.o.ignorecase = true
+vim.o.ignorecase = false
 
 -- ...unless the search phrase contains a capital.
-vim.o.smartcase = true
+vim.o.smartcase = false
 
 -- To enable syntax based closing/folding of code
 vim.o.foldmethod = "syntax"
+
+-- To see the cursor more clearly
+vim.o.cursorline = true
+vim.o.cursorcolumn = true
 
 -- Yanky keybindings
 require("yanky").setup({ highlight = { timer = 200 } })
@@ -126,8 +155,6 @@ vim.keymap.set("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
 vim.keymap.set("n", "<c-n>", "<Plug>(YankyNextEntry)")
 
 -- TELESCOPE SETUP
-local builtin = require("telescope.builtin")
-require("telescope").load_extension("yank_history")
 require("telescope").setup({
   defaults = {
     mappings = {
@@ -137,24 +164,35 @@ require("telescope").setup({
     },
   },
 })
+local builtin = require("telescope.builtin")
+require("telescope").load_extension("yank_history")
 
 vim.keymap.set("n", "<leader>fp", require("telescope").extensions.yank_history.yank_history, {})
-vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
 
 -- FZF-LUA Setup
 local fzf = require("fzf-lua")
+local actions = require("fzf-lua").actions
 fzf.setup({
   "telescope",
-  grep = {
-    rg_glob = true,
-  },
   fzf_opts = { ["--cycle"] = "" },
+  buffers = {
+    actions = {
+      ["ctrl-d"] = false,
+    },
+    keymap = {
+      builtin = {
+        ["<C-d>"] = "preview-page-down",
+        ["<C-u>"] = "preview-page-up",
+      },
+    },
+  },
 })
 vim.keymap.set("n", "<leader>fg", fzf.grep_cword, {})
-vim.keymap.set("n", "<leader>ff", fzf.files, {})
 vim.keymap.set("n", "<leader>lg", fzf.live_grep, {})
 vim.keymap.set("n", "<leader>ft", fzf.tags_grep_cword, {})
 vim.keymap.set("n", "<leader>lt", fzf.tags, {})
+vim.keymap.set("n", "<leader>ff", fzf.files, {})
+vim.keymap.set("n", "<leader>fb", fzf.buffers, {})
 
 -- Yazi keybinging
 vim.keymap.set("n", "<leader>cw", "<cmd>Yazi cwd<cr>", {})
@@ -168,11 +206,23 @@ require("octo").setup({
 vim.api.nvim_set_keymap("n", "<F2>", ':let @" = expand("%")<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<F3>", ':let @+ = expand("%")<CR>', { noremap = true, silent = true })
 
--- Enable avante
-require("avante_lib").load()
-require("avante").setup({
-  provider = "openai",
+-- Code Companion setup
+require("codecompanion").setup({
+  strategies = {
+    chat = {
+      adapter = "openai",
+    },
+    inline = {
+      adapter = "openai",
+    },
+  },
 })
+vim.keymap.set({ "n", "v" }, "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>a", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
+vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
+
+-- Expand 'cc' into 'CodeCompanion' in the command line
+vim.cmd([[cab cc CodeCompanion]])
 
 local function reload_current_file()
   -- Save the current cursor position
