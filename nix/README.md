@@ -1,5 +1,5 @@
 ```bash
-nix profile remove <profile_number>
+nix profile remove nix
 nix profile install .
 ```
 
