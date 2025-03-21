@@ -26,7 +26,7 @@
       packages.${system}.default = pkgs.buildEnv {
         name = "My Packages";
         paths = with pkgs; [
-          glow # CLI Tool for rendering markdown
+          gum # CLI Tool for making awesome bash scripts
 
           nodePackages.nodejs # NodeJS
 
@@ -69,6 +69,8 @@
           stylua # Lua formatter
 
           taskwarrior3 # CLI based task manager
+
+          keepassxc # Password manager
         ];
       };
     };

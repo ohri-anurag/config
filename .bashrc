@@ -127,7 +127,6 @@ export VISUAL="nvim"
 eval "$(fzf --bash)"
 
 alias cat='bat --paging=never'
-alias find=fd
 alias ga='git add'
 alias gap='git add --patch'
 alias gb='git branch'
@@ -145,7 +144,6 @@ alias gplm='git pull -S origin master'
 alias gplr='git pull --recurse-submodules'
 alias gpu='git push --set-upstream origin "$(git symbolic-ref --short HEAD)"'
 alias grc='git rebase --continue'
-alias grep=rg
 alias gri='git rebase -i'
 alias grs='git rebase --skip'
 alias gra='git rebase --abort'
@@ -155,12 +153,6 @@ alias v=nvim
 replace() {
   rg -l -F $1 . | xargs sed -i s/$1/$2/g
 }
-replaceRegex() {
-  rg -l $1 . | xargs sed -i s/$1/$2/g
-}
-
-# Use readline in VI mode, so that Vim's keybindings also work on the terminal
-set -o vi
 
 # If there is .bashenv.sh file in the directory where the terminal is started, this will load it.
 if [ -f .bashenv.sh ]; then
@@ -174,4 +166,67 @@ function cd() {
   fi
 }
 
+TASKS_FILE=~/tasks.json
+function task() {
+  DESC=$(gum input --placeholder "What needs doing?")
+  DUESTR=$(gum input --placeholder "When is it due?")
+  DUE=$(date -d "$DUESTR")
+  if [[ -f $TASKS_FILE ]]
+  then
+    mapfile TASK_IDS < <(jq '.id' $TASKS_FILE | sort)
+    i=1
+    N=0
+    for id in "${TASK_IDS[@]}"; do
+      if [[ $id -eq $i ]]
+      then
+        i=$((i + 1))
+      else
+        N=$i
+        break
+      fi
+    done
+    if [[ 0 -eq $N ]]
+    then
+      N=$i
+    fi
+  else
+    N=1
+  fi
+  TASK='{"id": '$N', "desc": "'$DESC'", "due": "'$DUE'"}'
+  if [[ -z "$DESC" || -z "$DUE" ]]
+  then
+    echo "Need both description and due date"
+    return
+  fi
+  echo $TASK >> $TASKS_FILE
+}
+
+function tasks() {
+  N=$(bat $TASKS_FILE | wc -l)
+  if [[ $N -eq 0 ]]
+  then
+    echo "$(gum style --foreground 120 "You don't have any tasks left!! Hooray!!")"
+    return
+  fi
+  HEADER_DATE=$(gum style --padding="0 4" --foreground 167 --border normal --border-foreground 167 "Date")
+  HEADER_DESC=$(gum style --padding="0 15" --foreground 104 --border normal --border-foreground 104 "Description")
+  HEADER_ID=$(gum style --padding="0 1" --foreground 115 --border normal --border-foreground 115 "ID")
+  HEADER=$(gum join "$HEADER_DATE" "$HEADER_DESC" "$HEADER_ID")
+  echo "$HEADER"
+  while read task; do
+    DATE=$(date +"%d %b %Y" -d "$(echo $task | jq -r '.due')" | gum style --padding="0 1" --foreground 167 --border none --border-foreground 167)
+    DESC=$(echo $task | jq -r '.desc' | gum style --width 41 --foreground 104 --margin="0 0 0 2")
+    ID=$(echo $task | jq -r '.id' | gum style --width 5 --margin="0 0 0 2" --foreground 115)
+    echo "$(gum join "$DATE" "$DESC" "$ID")"
+  done < $TASKS_FILE
+}
+
+function finished() {
+  jq 'select(.id != '$1')' -c $TASKS_FILE > ~/tasks.json.tmp
+  mv ~/tasks.json.tmp $TASKS_FILE
+}
+
+function notify() {
+  ./notify.sh
+}
 export OPENAI_API_KEY="$(cat ~/.openaikey)"

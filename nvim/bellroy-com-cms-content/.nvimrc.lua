@@ -18,3 +18,7 @@ end)
 create_format_on_save("*.elm", function(file)
   return { "node_modules/elm-format/bin/elm-format", "--yes", file }
 end)
+
+create_format_on_save("*.nix", function(file)
+  return { "nixfmt", file }
+end)

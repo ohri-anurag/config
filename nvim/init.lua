@@ -53,7 +53,13 @@ Plug("mikavilpas/yazi.nvim")
 -- TODO Comments
 Plug("folke/todo-comments.nvim")
 
+-- ALE
+Plug("dense-analysis/ale")
+
 vim.call("plug#end")
+
+-- ALE Setup
+vim.g.ale_linters = { elm = { "elm_ls" } }
 
 -- TREE SITTER SETUP
 require("nvim-treesitter.configs").setup({
@@ -141,7 +147,9 @@ vim.o.ignorecase = false
 vim.o.smartcase = false
 
 -- To enable syntax based closing/folding of code
-vim.o.foldmethod = "syntax"
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldlevelstart = 99
 
 -- To see the cursor more clearly
 vim.o.cursorline = true
@@ -175,6 +183,7 @@ local actions = require("fzf-lua").actions
 fzf.setup({
   "telescope",
   fzf_opts = { ["--cycle"] = "" },
+  grep = { RIPGREP_CONFIG_PATH = vim.env.RIPGREP_CONFIG_PATH },
   buffers = {
     actions = {
       ["ctrl-d"] = false,
@@ -217,7 +226,6 @@ require("codecompanion").setup({
     },
   },
 })
-vim.keymap.set({ "n", "v" }, "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
 vim.keymap.set({ "n", "v" }, "<leader>a", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
 vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
 
@@ -281,3 +289,21 @@ vim.api.nvim_exec(
 if vim.fn.filereadable(".nvimrc.lua") == 1 then
   vim.cmd("source .nvimrc.lua")
 end
+
+-- Vim Window navigation keybindings
+vim.keymap.set("n", "<C-h>", "<Cmd>wincmd h<CR>")
+vim.keymap.set("n", "<C-j>", "<Cmd>wincmd j<CR>")
+vim.keymap.set("n", "<C-k>", "<Cmd>wincmd k<CR>")
+vim.keymap.set("n", "<C-l>", "<Cmd>wincmd l<CR>")
+
+-- Keybinding for clearing the search highlight
+vim.keymap.set("n", "<leader>;", "<Cmd>nohlsearch<CR>")
+
+-- Keybinding to select till the end of line
+vim.keymap.set("n", "<S-v>", "v$h")
+
+-- Keybinding to select entire line
+vim.keymap.set("n", "vv", "<S-v>")
+
+-- Keybinding for ALE to go to definition
+vim.keymap.set("n", "<F12>", "<Cmd>ALEGoToDefinition<CR>")

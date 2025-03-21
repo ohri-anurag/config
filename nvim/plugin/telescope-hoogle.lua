@@ -20,18 +20,7 @@ local write_docs = function(bufnr, begin, docs)
 end
 
 local function open_browser(url)
-  local browser_cmd
-  if vim.fn.has("unix") == 1 then
-    if vim.fn.executable("sensible-browser") == 1 then
-      browser_cmd = "sensible-browser"
-    else
-      browser_cmd = "xdg-open"
-    end
-  end
-  if vim.fn.has("mac") == 1 then
-    browser_cmd = "open"
-  end
-  vim.cmd(":silent !" .. browser_cmd .. " " .. vim.fn.fnameescape(url))
+  vim.cmd(":silent !firefox " .. vim.fn.fnameescape(url))
 end
 
 local show_preview = function(self, entry, status)
