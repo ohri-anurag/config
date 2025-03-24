@@ -1,4 +1,5 @@
-if [[ -f tasks.json ]]
+TASKS_FILE=~/tasks.json
+if [[ -f $TASKS_FILE ]]
 then
   while read task; do
     DUE=$(date +%s -d "$(echo $task | jq -r '.due')")
@@ -8,5 +9,5 @@ then
       XDG_RUNTIME_DIR=/run/user/$(id -u) notify-send "Task due!!" "$DESC"
       XDG_RUNTIME_DIR=/run/user/$(id -u) paplay /usr/share/sounds/freedesktop/stereo/complete.oga
     fi
-  done < tasks.json
+  done < $TASKS_FILE
 fi

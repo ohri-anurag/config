@@ -1,2 +1,3 @@
-{"id":4,"desc":"Add cron jobs for uploading config repo on a weekly basis","due":"Friday 21 March 2025 04:11:51 PM IST"}
-{"id":5,"desc":"Uninstall Todoist","due":"Friday 21 March 2025 04:48:24 PM IST"}
+{"id": 1, "desc": "Port all tasks from taskwarrior to tasks.json", "due": "Monday 24 March 2025 12:00:00 AM IST"}
+{"id": 2, "desc": "Remove taskwarrior from flake.nix", "due": "Monday 24 March 2025 12:00:00 AM IST"}
+{"id": 3, "desc": "This is a test task. It should tell me that it is pending monday morning", "due": "Sunday 23 March 2025 12:00:00 AM IST"}
