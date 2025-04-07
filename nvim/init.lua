@@ -11,6 +11,15 @@ Plug("sainnhe/edge")
 -- Moonfly colorscheme plugin
 Plug("bluz71/vim-moonfly-colors", { as = "moonfly" })
 
+-- Tokyonight colorscheme plugin
+Plug("folke/tokyonight.nvim")
+
+-- PaperColor colorscheme plugin
+Plug("NLKNguyen/papercolor-theme")
+Plug("EdenEast/nightfox.nvim")
+-- Oxocarbon colorscheme plugin
+Plug("nyoom-engineering/oxocarbon.nvim")
+
 -- ICONS for telescope
 Plug("nvim-tree/nvim-web-devicons")
 
@@ -41,9 +50,6 @@ Plug("gbprod/yanky.nvim")
 -- Co-pilot
 Plug("github/copilot.vim")
 
--- Octo
-Plug("pwntester/octo.nvim")
-
 -- Code Companion
 Plug("olimorris/codecompanion.nvim")
 
@@ -56,10 +62,19 @@ Plug("folke/todo-comments.nvim")
 -- ALE
 Plug("dense-analysis/ale")
 
+-- gh.nvim
+Plug("ldelossa/litee.nvim")
+Plug("ldelossa/gh.nvim")
+
 vim.call("plug#end")
+
+-- gh.nvim setup
+require("litee.lib").setup()
+require("litee.gh").setup()
 
 -- ALE Setup
 vim.g.ale_linters = { elm = { "elm_ls" } }
+vim.g.ale_linters_explicit = 1
 
 -- TREE SITTER SETUP
 require("nvim-treesitter.configs").setup({
@@ -101,7 +116,8 @@ require("nvim-web-devicons").setup({
 })
 
 -- Setup the colorscheme
-vim.cmd("colorscheme moonfly")
+-- vim.cmd("colorscheme moonfly")
+vim.cmd("colorscheme carbonfox")
 
 -- Setup indent guides
 require("ibl").setup()
@@ -158,7 +174,7 @@ vim.o.cursorcolumn = true
 -- Yanky keybindings
 require("yanky").setup({ highlight = { timer = 200 } })
 vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
-vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
+
 vim.keymap.set("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
 vim.keymap.set("n", "<c-n>", "<Plug>(YankyNextEntry)")
 
@@ -202,14 +218,10 @@ vim.keymap.set("n", "<leader>ft", fzf.tags_grep_cword, {})
 vim.keymap.set("n", "<leader>lt", fzf.tags, {})
 vim.keymap.set("n", "<leader>ff", fzf.files, {})
 vim.keymap.set("n", "<leader>fb", fzf.buffers, {})
+vim.keymap.set("n", "<leader>c", fzf.git_commits, {})
 
 -- Yazi keybinging
 vim.keymap.set("n", "<leader>cw", "<cmd>Yazi cwd<cr>", {})
-
--- Octo Setup
-require("octo").setup({
-  picker = "fzf-lua",
-})
 
 -- Setup keybindings for copying current filepath relative to VIM's cwd
 vim.api.nvim_set_keymap("n", "<F2>", ':let @" = expand("%")<CR>', { noremap = true, silent = true })

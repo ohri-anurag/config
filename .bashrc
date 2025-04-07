@@ -126,7 +126,6 @@ export VISUAL="nvim"
 
 eval "$(fzf --bash)"
 
-alias cat='bat --paging=never'
 alias ga='git add'
 alias gap='git add --patch'
 alias gb='git branch'
@@ -170,27 +169,13 @@ TASKS_FILE=~/tasks.json
 function task() {
   DESC=$(gum input --placeholder "What needs doing?")
   DUESTR=$(gum input --placeholder "When is it due?")
-  DUE=$(date -d "$DUESTR")
-  if [[ -f $TASKS_FILE ]]
+  DUE=$(date -u -d "$(date -d "$DUESTR")" +"%Y-%m-%dT%H:%M:%SZ")
+  N=$(jq 'map(.id) | max' $TASKS_FILE)
+  if [[ $N -eq 100 ]]
   then
-    mapfile TASK_IDS < <(jq '.id' $TASKS_FILE | sort)
-    i=1
-    N=0
-    for id in "${TASK_IDS[@]}"; do
-      if [[ $id -eq $i ]]
-      then
-        i=$((i + 1))
-      else
-        N=$i
-        break
-      fi
-    done
-    if [[ 0 -eq $N ]]
-    then
-      N=$i
-    fi
-  else
     N=1
+  else
+    N=$((N + 1))
   fi
   TASK='{"id": '$N', "desc": "'$DESC'", "due": "'$DUE'"}'
   if [[ -z "$DESC" || -z "$DUE" ]]
@@ -198,11 +183,12 @@ function task() {
     echo "Need both description and due date"
     return
   fi
-  echo $TASK >> $TASKS_FILE
+  jq '. += ['"$TASK"'] | sort_by(.due | fromdate)' $TASKS_FILE > ~/tasks.json.tmp
+  mv ~/tasks.json.tmp $TASKS_FILE
 }
 
 function tasks() {
-  N=$(bat $TASKS_FILE | wc -l)
+  N=$(jq 'length' $TASKS_FILE)
   if [[ $N -eq 0 ]]
   then
     echo "$(gum style --foreground 120 "You don't have any tasks left!! Hooray!!")"
@@ -213,20 +199,25 @@ function tasks() {
   HEADER_ID=$(gum style --padding="0 1" --foreground 115 --border normal --border-foreground 115 "ID")
   HEADER=$(gum join "$HEADER_DATE" "$HEADER_DESC" "$HEADER_ID")
   echo "$HEADER"
-  while read task; do
+  jq '.[]' -c $TASKS_FILE | while read task; do
     DATE=$(date +"%d %b %Y" -d "$(echo $task | jq -r '.due')" | gum style --padding="0 1" --foreground 167 --border none --border-foreground 167)
     DESC=$(echo $task | jq -r '.desc' | gum style --width 41 --foreground 104 --margin="0 0 0 2")
     ID=$(echo $task | jq -r '.id' | gum style --width 5 --margin="0 0 0 2" --foreground 115)
     echo "$(gum join "$DATE" "$DESC" "$ID")"
-  done < $TASKS_FILE
+  done
 }
 
 function finished() {
-  jq 'select(.id != '$1')' -c $TASKS_FILE > ~/tasks.json.tmp
+  if [[ -z "$1" ]]
+  then
+    echo "Need an ID to mark a task as finished"
+    return
+  fi
+  jq 'map(select(.id != '$1'))' $TASKS_FILE > ~/tasks.json.tmp
   mv ~/tasks.json.tmp $TASKS_FILE
 }
 
 function notify() {
-  ./notify.sh
+  ~/notify.sh
 }
 export OPENAI_API_KEY="$(cat ~/.openaikey)"

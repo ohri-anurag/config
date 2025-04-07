@@ -68,8 +68,6 @@
 
           stylua # Lua formatter
 
-          taskwarrior3 # CLI based task manager
-
           keepassxc # Password manager
         ];
       };

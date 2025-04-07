@@ -24,3 +24,6 @@ cp ~/.config/yazi/theme.toml ./yazi/
 
 echo "Copying Passwords Database"
 cp ~/Passwords.kdbx ./
+
+echo "Copying .gitconfig"
+cp ~/.gitconfig ./
