@@ -23,4 +23,4 @@
 # m h  dom mon dow   command
 0 8 * * 1-5 /usr/bin/bash /home/anuragohri92/notify.sh
 30 15 * * 1-5 /usr/bin/bash /home/anuragohri92/notify.sh
-0 8 * * 1 /usr/bin/bash /home/anuragohri92/github/config/git.sh
+30 15 * * 5 /usr/bin/bash /home/anuragohri92/github/config/git.sh

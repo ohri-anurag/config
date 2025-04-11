@@ -11,6 +11,10 @@ create_format_on_save("*.mjs", function(file)
   return { "prettier", "-w", file }
 end)
 
+create_format_on_save("*.js", function(file)
+  return { "prettier", "-w", file }
+end)
+
 create_format_on_save("*.md", function(file)
   return { "prettier", "-w", file }
 end)

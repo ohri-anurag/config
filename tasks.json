@@ -15,9 +15,19 @@
     "due": "2025-03-28T00:00:00Z"
   },
   {
-    "id": 16,
-    "desc": "Check if your PR 4938 is merged",
-    "due": "2025-04-06T18:30:00Z"
+    "id": 17,
+    "desc": "What is MCP? How is Hugh proposing that we use it?",
+    "due": "2025-04-10T18:30:00Z"
+  },
+  {
+    "id": 18,
+    "desc": "What is OpenRouter? Can you do something like this locally?",
+    "due": "2025-04-10T18:30:00Z"
+  },
+  {
+    "id": 19,
+    "desc": "Why is meld not working in the CMS repo?",
+    "due": "2025-04-11T02:37:08Z"
   },
   {
     "id": 11,

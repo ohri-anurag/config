@@ -6,19 +6,10 @@ vim.call("plug#begin")
 Plug("nvim-lualine/lualine.nvim")
 
 -- Edge colorscheme plugin
-Plug("sainnhe/edge")
-
+-- Plug("sainnhe/edge")
 -- Moonfly colorscheme plugin
-Plug("bluz71/vim-moonfly-colors", { as = "moonfly" })
-
--- Tokyonight colorscheme plugin
-Plug("folke/tokyonight.nvim")
-
--- PaperColor colorscheme plugin
-Plug("NLKNguyen/papercolor-theme")
+-- Plug("bluz71/vim-moonfly-colors", { as = "moonfly" })
 Plug("EdenEast/nightfox.nvim")
--- Oxocarbon colorscheme plugin
-Plug("nyoom-engineering/oxocarbon.nvim")
 
 -- ICONS for telescope
 Plug("nvim-tree/nvim-web-devicons")
@@ -59,9 +50,6 @@ Plug("mikavilpas/yazi.nvim")
 -- TODO Comments
 Plug("folke/todo-comments.nvim")
 
--- ALE
-Plug("dense-analysis/ale")
-
 -- gh.nvim
 Plug("ldelossa/litee.nvim")
 Plug("ldelossa/gh.nvim")
@@ -72,9 +60,28 @@ vim.call("plug#end")
 require("litee.lib").setup()
 require("litee.gh").setup()
 
--- ALE Setup
-vim.g.ale_linters = { elm = { "elm_ls" } }
-vim.g.ale_linters_explicit = 1
+-- LSP Setup
+vim.lsp.config("typescript", {
+  cmd = { "npx", "typescript-language-server", "--stdio" },
+  filetypes = { "typescript" },
+  root_markers = { ".git" },
+})
+vim.lsp.enable("typescript")
+
+-- Enable LSP diagnostics
+vim.diagnostic.config({
+  virtual_text = true, -- Enable virtual text at end of line
+  signs = true, -- Show signs in the sign column
+  underline = true, -- Underline text with issues
+  update_in_insert = false, -- Only update diagnostics after leaving insert mode
+  severity_sort = true, -- Sort diagnostics by severity
+  float = { -- Configure the floating window
+    source = "always", -- Always show source of the diagnostic
+    border = "rounded", -- Add a rounded border
+    header = "", -- No header
+    prefix = "", -- No prefix
+  },
+})
 
 -- TREE SITTER SETUP
 require("nvim-treesitter.configs").setup({
@@ -116,7 +123,6 @@ require("nvim-web-devicons").setup({
 })
 
 -- Setup the colorscheme
--- vim.cmd("colorscheme moonfly")
 vim.cmd("colorscheme carbonfox")
 
 -- Setup indent guides
@@ -174,7 +180,7 @@ vim.o.cursorcolumn = true
 -- Yanky keybindings
 require("yanky").setup({ highlight = { timer = 200 } })
 vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
-
+vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
 vim.keymap.set("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
 vim.keymap.set("n", "<c-n>", "<Plug>(YankyNextEntry)")
 
@@ -196,6 +202,7 @@ vim.keymap.set("n", "<leader>fp", require("telescope").extensions.yank_history.y
 -- FZF-LUA Setup
 local fzf = require("fzf-lua")
 local actions = require("fzf-lua").actions
+fzf.register_ui_select()
 fzf.setup({
   "telescope",
   fzf_opts = { ["--cycle"] = "" },

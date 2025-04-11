@@ -69,6 +69,8 @@
           stylua # Lua formatter
 
           keepassxc # Password manager
+
+          pavucontrol # PulseAudio volume control
         ];
       };
     };

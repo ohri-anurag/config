@@ -220,4 +220,48 @@ function finished() {
 function notify() {
   ~/notify.sh
 }
+
+function start() {
+  case $1 in
+    "break")
+      PROJECT_ID=209847916
+      COLOR=134
+      ;;
+    "impl")
+      PROJECT_ID=209534029
+      COLOR=61
+      ;;
+    "inv")
+      PROJECT_ID=209534030
+      COLOR=32
+      ;;
+    "learn")
+      PROJECT_ID=209534031
+      COLOR=172
+      ;;
+    "meet")
+      PROJECT_ID=209538618
+      COLOR=160
+      ;;
+    "pair")
+      PROJECT_ID=209561028
+      COLOR=34
+      ;;
+    *)
+      echo "Need a valid project name"
+      return
+      ;;
+  esac
+  toggl start --project "$PROJECT_ID" --workspace 9258696 "$2"
+  if [[ $? -eq 0 ]]
+  then
+    echo "$(gum style --foreground  "$COLOR" "$2" --border normal --border-foreground "$COLOR")"
+    return
+  fi
+}
+
+function stop() {
+  toggl stop
+}
+
 export OPENAI_API_KEY="$(cat ~/.openaikey)"
