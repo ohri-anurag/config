@@ -34,8 +34,6 @@
 
           claude-code # Setup for claude code
 
-          meld # Visual diff/merge tool
-
           xclip # Clipboard manager
 
           yazi # Terminal based file manager
@@ -71,6 +69,10 @@
           keepassxc # Password manager
 
           pavucontrol # PulseAudio volume control
+
+          cmus # Music player
+
+          nicotine-plus # Client for Soulseek
         ];
       };
     };

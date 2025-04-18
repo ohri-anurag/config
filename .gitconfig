@@ -11,6 +11,6 @@
   tool = nvimdiff
 [merge]
   conflictstyle = diff3
-	tool = meld
+	tool = nvimdiff
 [mergetool]
   keepBackup = false

@@ -25,9 +25,9 @@
     "due": "2025-04-10T18:30:00Z"
   },
   {
-    "id": 19,
-    "desc": "Why is meld not working in the CMS repo?",
-    "due": "2025-04-11T02:37:08Z"
+    "id": 22,
+    "desc": "Check for NixOS instead of Ubuntu in CMS flake.nix",
+    "due": "2025-04-15T03:23:38Z"
   },
   {
     "id": 11,

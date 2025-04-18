@@ -222,28 +222,30 @@ function notify() {
 }
 
 function start() {
-  case $1 in
-    "break")
+  PROJECT=$(gum choose --header="Select Project:" "Break" "Implementation" "Investigation" "Learning" "Meeting" "Pairing")
+  DESC=$(gum input --placeholder "Describe the task you want to log time for:")
+  case $PROJECT in
+    "Break")
       PROJECT_ID=209847916
       COLOR=134
       ;;
-    "impl")
+    "Implementation")
       PROJECT_ID=209534029
       COLOR=61
       ;;
-    "inv")
+    "Investigation")
       PROJECT_ID=209534030
       COLOR=32
       ;;
-    "learn")
+    "Learning")
       PROJECT_ID=209534031
       COLOR=172
       ;;
-    "meet")
+    "Meeting")
       PROJECT_ID=209538618
       COLOR=160
       ;;
-    "pair")
+    "Pairing")
       PROJECT_ID=209561028
       COLOR=34
       ;;
@@ -252,16 +254,29 @@ function start() {
       return
       ;;
   esac
-  toggl start --project "$PROJECT_ID" --workspace 9258696 "$2"
+  https --print b -a 4e5a3390c7dcf8a52dfaf0c6cf02a2b8:api_token POST \
+    api.track.toggl.com/api/v9/workspaces/9258696/time_entries \
+    description="$DESC" \
+    start=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+    workspace_id:=9258696 \
+    created_with="Anurag's bash script using HTTPie" \
+    duration:=-1 \
+    project_id:=$PROJECT_ID | jq '.id' > ~/toggl_id
   if [[ $? -eq 0 ]]
   then
-    echo "$(gum style --foreground  "$COLOR" "$2" --border normal --border-foreground "$COLOR")"
+    echo "$(gum style \
+      --foreground "$COLOR" \
+      --border normal \
+      --border-foreground "$COLOR" \
+      "$DESC" )"
     return
   fi
 }
 
 function stop() {
-  toggl stop
+  TASK_ID=$(cat ~/toggl_id)
+  https -q -a 4e5a3390c7dcf8a52dfaf0c6cf02a2b8:api_token PATCH \
+    api.track.toggl.com/api/v9/workspaces/9258696/time_entries/"$TASK_ID"/stop
 }
 
 export OPENAI_API_KEY="$(cat ~/.openaikey)"

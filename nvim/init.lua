@@ -60,13 +60,28 @@ vim.call("plug#end")
 require("litee.lib").setup()
 require("litee.gh").setup()
 
+-- LSP keybindings
+vim.keymap.set("n", "<F12>", "<cmd>lua vim.lsp.buf.definition()<CR>")
+
 -- LSP Setup
 vim.lsp.config("typescript", {
   cmd = { "npx", "typescript-language-server", "--stdio" },
   filetypes = { "typescript" },
   root_markers = { ".git" },
 })
+vim.lsp.config("dhall", {
+  cmd = { "dhall-lsp-server" },
+  filetypes = { "dhall" },
+  root_markers = { ".git" },
+})
+vim.lsp.config("elm", {
+  cmd = { "elm-language-server" },
+  filetypes = { "elm" },
+  root_markers = { ".git" },
+})
 vim.lsp.enable("typescript")
+vim.lsp.enable("dhall")
+vim.lsp.enable("elm")
 
 -- Enable LSP diagnostics
 vim.diagnostic.config({
@@ -323,6 +338,3 @@ vim.keymap.set("n", "<S-v>", "v$h")
 
 -- Keybinding to select entire line
 vim.keymap.set("n", "vv", "<S-v>")
-
--- Keybinding for ALE to go to definition
-vim.keymap.set("n", "<F12>", "<Cmd>ALEGoToDefinition<CR>")
