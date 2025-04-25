@@ -66,7 +66,7 @@ vim.keymap.set("n", "<F12>", "<cmd>lua vim.lsp.buf.definition()<CR>")
 -- LSP Setup
 vim.lsp.config("typescript", {
   cmd = { "npx", "typescript-language-server", "--stdio" },
-  filetypes = { "typescript" },
+  filetypes = { "typescript", "javascript" },
   root_markers = { ".git" },
 })
 vim.lsp.config("dhall", {
