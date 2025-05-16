@@ -73,6 +73,10 @@
           cmus # Music player
 
           nicotine-plus # Client for Soulseek
+
+          btop # System monitor
+
+          nil # Nix language server
         ];
       };
     };

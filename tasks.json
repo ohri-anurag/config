@@ -15,26 +15,6 @@
     "due": "2025-03-28T00:00:00Z"
   },
   {
-    "id": 17,
-    "desc": "What is MCP? How is Hugh proposing that we use it?",
-    "due": "2025-04-10T18:30:00Z"
-  },
-  {
-    "id": 18,
-    "desc": "What is OpenRouter? Can you do something like this locally?",
-    "due": "2025-04-10T18:30:00Z"
-  },
-  {
-    "id": 22,
-    "desc": "Check for NixOS instead of Ubuntu in CMS flake.nix",
-    "due": "2025-04-15T03:23:38Z"
-  },
-  {
-    "id": 11,
-    "desc": "Find Mike's TV show",
-    "due": "2025-04-25T00:00:00Z"
-  },
-  {
     "id": 12,
     "desc": "Write your Neovim config in Fennel",
     "due": "2025-05-09T00:00:00Z"
