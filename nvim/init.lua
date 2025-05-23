@@ -39,7 +39,7 @@ Plug("lukas-reineke/indent-blankline.nvim")
 Plug("gbprod/yanky.nvim")
 
 -- Co-pilot
-Plug("github/copilot.vim")
+-- Plug("github/copilot.vim")
 
 -- Code Companion
 Plug("olimorris/codecompanion.nvim")
@@ -53,6 +53,9 @@ Plug("folke/todo-comments.nvim")
 -- gh.nvim
 Plug("ldelossa/litee.nvim")
 Plug("ldelossa/gh.nvim")
+
+-- Linediff
+Plug("andrewradev/linediff.vim")
 
 vim.call("plug#end")
 
@@ -79,9 +82,19 @@ vim.lsp.config("elm", {
   filetypes = { "elm" },
   root_markers = { ".git" },
 })
+vim.lsp.config("ruby", {
+  cmd = {
+    "bash",
+    "-c",
+    "$(bundle info --path sorbet-static)/libexec/sorbet tc --lsp --enable-all-beta-lsp-features --disable-watchman",
+  },
+  filetypes = { "ruby" },
+  root_markers = { ".git" },
+})
 vim.lsp.enable("typescript")
 vim.lsp.enable("dhall")
 vim.lsp.enable("elm")
+vim.lsp.enable("ruby")
 
 -- Enable LSP diagnostics
 vim.diagnostic.config({

@@ -18,5 +18,15 @@
     "id": 12,
     "desc": "Write your Neovim config in Fennel",
     "due": "2025-05-09T00:00:00Z"
+  },
+  {
+    "id": 14,
+    "desc": "How does the dhall cache work?",
+    "due": "2025-05-22T18:30:00Z"
+  },
+  {
+    "id": 15,
+    "desc": "Try pinning both git and ssh using Nix",
+    "due": "2025-05-22T18:30:00Z"
   }
 ]
